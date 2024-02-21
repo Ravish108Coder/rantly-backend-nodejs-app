@@ -8,14 +8,16 @@ export const isAuthenticated = (req, res, next) => {
 
         if (!token) {
             console.log("no token found in cookies");
-            return renderHomepage(req, res, "Sign In", "/login.html", "Explore the world with comfortable car");
+            return res.redirect('/login.html')
+            // return res.render('login', { message: 'Please login to continue' })
+            // return renderHomepage(req, res, "Sign In", "/login.html", "Explore the world with comfortable car");
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         // Check if the user already exists in the table
         const checkUserQuery = `
-        SELECT * FROM User WHERE id = '${decoded.id}'
+        SELECT * FROM users WHERE id = '${decoded.id}'
         `;
 
         connection.query(checkUserQuery, (checkErr, results) => {
@@ -28,9 +30,9 @@ export const isAuthenticated = (req, res, next) => {
                 return renderHomepage(req, res, "Sign In", "/login.html", "Explore the world with comfortable car");
             }
             console.log("User is authenticated");
-            console.log(results);
-            req.user = results[0];
-            console.log('req ka user attrb', req.user)
+            // console.log(results);
+            if(!req.user) req.user = results[0];
+            // console.log('req ka user attrb', req.user)
             next();
         });
     

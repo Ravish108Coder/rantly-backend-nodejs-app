@@ -4,7 +4,7 @@ const connectToMySql = () => {
         host: 'localhost',
         user: 'root',
         password: 'root_root',
-        database: 'sampledb'
+        database: 'rantly'
     });
 
     connection.connect((err) => {
