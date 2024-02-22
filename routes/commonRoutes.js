@@ -108,10 +108,13 @@ router.post("/register", (req, res) => {
             const saltRounds = 10;
             const hashPassword = await bcrypt.hash(password, saltRounds);
 
+            let date = new Date();
+            date = date.toISOString().slice(0, 19).replace("T", " ");
+
             // Insert document into the table
             const insertDocumentQuery = `
-                INSERT INTO users (name, email, password) VALUES
-                 ('${name}', '${email}', '${hashPassword}')
+                INSERT INTO users (name, email, password, email_verified_at, remember_token, created_at, updated_at) VALUES
+                 ('${name}', '${email}', '${hashPassword}', '${date}', NULL, '${date}', '${date}')
             `;
 
             connection.query(insertDocumentQuery, (insertErr) => {

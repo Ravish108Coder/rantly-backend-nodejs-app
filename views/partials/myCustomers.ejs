@@ -1,0 +1,31 @@
+<div class="card padding30 rounded-5 mb25">
+    <h4>My Customers</h4>
+
+    <table class="table de-table">
+      <thead>
+        <tr>
+          <th scope="col"><span class="fs-12 text-gray">User ID</span></th>
+          <th scope="col"><span class="fs-12 text-gray">User Name</span></th>
+          <th scope="col"><span class="fs-12 text-gray">User Email</span></th>
+          <th scope="col"><span class="fs-12 text-gray">Email Verified At</span></th>
+          <th scope="col"><span class="fs-12 text-gray">Remember Token</span></th>
+          <th scope="col"><span class="fs-12 text-gray">Created At</span></th>
+          <th scope="col"><span class="fs-12 text-gray">Updated At</span></th>
+        </tr>
+      </thead>
+      <tbody id="myCustomers-table">
+        <% allUsers.forEach(function(customer) { %>
+          <tr>
+            <td><%= customer.id %></td>
+            <td><%= customer.name %></td>
+            <td><%= customer.email %></td>
+            <td><%= customer.email_verified_at %></td>
+            <td><%= customer.remember_token %></td>
+            <td><%= customer.created_at %></td>
+            <td><%= customer.updated_at %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    
+</div>
