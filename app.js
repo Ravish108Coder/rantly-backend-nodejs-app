@@ -21,8 +21,8 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use("/", commonRouter);
-app.use("/admin", checkerLog, isAuthenticated, isUserAdmin, adminRoutes);
+app.use("/",  commonRouter);
+app.use("/admin", isAuthenticated, isUserAdmin, adminRoutes);
 app.use("/user", isAuthenticated, isUserCustomer, userRoutes);
 app.use("/corporate", isAuthenticated, isUserCorporate, corporateRoutes);
 
@@ -66,6 +66,8 @@ app.get('/:path', isAuthenticated, (req, res) => {
 // app.post('/:path', isAuthenticated, (req, res) => {
 //   if(req.user){
 //     const {usertype} = req.user;
+//     req.query = req.body
+//     console.log(req.body)
 //     const path = req.params.path;
 //     if(usertype === 'admin') return res.redirect(`/admin/${path}`);
 //     if(usertype === 'user') return res.redirect(`/user/${path}`);
@@ -74,6 +76,8 @@ app.get('/:path', isAuthenticated, (req, res) => {
 //     res.redirect('/login.html')
 //   }
 // });
+
+
 // app.get('/index-2.html',  (req, res) => {
 //   res.redirect('/');
 // });

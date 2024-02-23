@@ -189,7 +189,7 @@
                             <div class="p-4 rounded-3 shadow-soft" data-bgcolor="#ffffff">
                                 
 
-                                <form action="/booking" name="contactForm" id='contact_form' method="post">
+                                <form action="/<%= UserRole.toLowerCase() %>/booking" name="contactForm" id='contact_form' method="post">
                                     <div id="step-1" class="row">
                                         <div class="col-lg-6 mb30">
                                             <h5>What is your vehicle type?</h5>
@@ -221,7 +221,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6 mb20">
                                                     <h5>Pick Up Location</h5>
-                                                    <input type="text" name="PickupLocation" onfocus="geolocate()" placeholder="Enter your pickup location" id="autocomplete" autocomplete="off" class="form-control">
+                                                    <input type="text" name="PickupLocation" onfocus="geolocate()" placeholder="Enter your pickup location" id="autocomplete" autocomplete="off" class="form-control" required>
 
                                                     <div class="jls-address-preview jls-address-preview--hidden">
                                                         <div class="jls-address-preview__header">
@@ -231,7 +231,7 @@
 
                                                 <div class="col-lg-6 mb20">
                                                     <h5>Drop Off Location</h5>
-                                                    <input type="text" name="DropoffLocation" onfocus="geolocate()" placeholder="Enter your dropoff location" id="autocomplete2" autocomplete="off" class="form-control">
+                                                    <input type="text" name="DropoffLocation" onfocus="geolocate()" placeholder="Enter your dropoff location" id="autocomplete2" autocomplete="off" class="form-control" required>
 
                                                     <div class="jls-address-preview jls-address-preview--hidden">
                                                         <div class="jls-address-preview__header">
@@ -242,9 +242,9 @@
                                                 <div class="col-lg-6 mb20">
                                                     <h5>Pick Up Date & Time</h5>
                                                     <div class="date-time-field">
-                                                        <input type="text" id="date-picker" name="Pick Up Date" value="">
-                                                        <select name="Pick Up Time" id="pickup-time">
-                                                            <option selected disabled value="Select time">Time</option>
+                                                        <input type="text" id="date-picker" name="Pick_Up_Date" value="" required>
+                                                        <select name="Pick_Up_Time" id="pickup-time" required>
+                                                            <option selected disabled value="">Time</option>
                                                             <option value="00:00">00:00</option>
                                                             <option value="00:30">00:30</option>
                                                             <option value="01:00">01:00</option>
@@ -300,9 +300,9 @@
                                                 <div class="col-lg-6 mb20">
                                                     <h5>Return Date & Time</h5>
                                                     <div class="date-time-field">
-                                                        <input type="text" id="date-picker-2" name="Collection Date" value="">
-                                                        <select name="Collection Time" id="collection-time">
-                                                            <option selected disabled value="Select time">Time</option>
+                                                        <input type="text" id="date-picker-2" name="Collection_Date" value="" required>
+                                                        <select name="Collection_Time" id="collection-time" required>
+                                                            <option selected disabled value="">Time</option>
                                                             <option value="00:00">00:00</option>
                                                             <option value="00:30">00:30</option>
                                                             <option value="01:00">01:00</option>
@@ -358,7 +358,7 @@
                                         </div>
 
                                         <div class="col-lg-12">
-                                            <input type='submit' id='send_message' value='Find a Vehicle' class="btn-main pull-right">
+                                            <button type='submit' id='send_message'  class="btn-main pull-right">Find a Vehicle</button>
                                         </div>
 
                                     </div>
