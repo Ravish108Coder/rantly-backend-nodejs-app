@@ -18,10 +18,10 @@ export const sendMail = async (req, res) => {
     });
 
     const info = await transporter.sendMail({
-        from: '"Fred Foo 👻" <kravish1999@gmail.com>', // sender address
+        from: '"Ravish Kumar 👻" <kravish1999@gmail.com>', // sender address
         to: "211128@iiitt.ac.in", // list of receivers
         subject: "Hello ✔", // Subject line
-        text: "Hello world?", // plain text body
+        text: "Hi from Ravish!", // plain text body
         html: "<b>Hello world?</b>", // html body
     });
 
