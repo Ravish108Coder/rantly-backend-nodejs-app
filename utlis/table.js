@@ -12,8 +12,8 @@ export const createTableQuery = `
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 `;
 
-export const bookingsTableQuery = 
-`CREATE TABLE IF NOT EXISTS bookings (
+export const bookingsTableQuery = `
+CREATE TABLE IF NOT EXISTS bookings (
   id bigint(20) UNSIGNED AUTO_INCREMENT NOT NULL,
   user_id bigint(20) UNSIGNED NOT NULL,
   name varchar(255) NOT NULL,
@@ -24,18 +24,15 @@ export const bookingsTableQuery =
   booking_till datetime NOT NULL,
   created_at timestamp NULL DEFAULT NULL,
   updated_at timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;`
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+`;
 
 
 export const renderOtherPage = (page) => {
     return (req, res) => {
-      // console.log('hi')
-      // console.log(req.user.usertype)
       const UserRole = req.user.usertype;
       const pagetitle = page.split('.html')[0];
-        return res.render(pagetitle, {UserRole: UserRole});
-        // return res.send('hi from ' + pagetitle)
-
-        // dikkat fromm res.render() and res.send()
+        return res.render(pagetitle, {UserRole: UserRole, UserName: req.user.name, UserEmail: req.user.email,
+          UserId: req.user.id});
     }
 }

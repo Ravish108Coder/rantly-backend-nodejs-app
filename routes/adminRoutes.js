@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { connection } from '../server.js';
 import { renderHomepage } from "../utlis/render.js";
-import { checkerLogTwo } from "../middlewares/auth.js";
+import { checkerLogTwo, isAuthenticated } from "../middlewares/auth.js";
 import { getAllUsers } from "../utlis/allUsers.js";
 import { getAllCorporates } from "../utlis/allCorporates.js";
 import { bookingsTableQuery, renderOtherPage } from "../utlis/table.js";
@@ -120,11 +120,11 @@ router.post('/booking', (req, res) => {
     const { id, name, email } = req.user;
     const { Car_Type, Pick_Up_Date, Collection_Date, Pick_Up_Time, Collection_Time } = req.body;
     // Combine date and time
-  let pickUpCombinedDateTime = `${Pick_Up_Date} ${Pick_Up_Time}`;
-  pickUpCombinedDateTime = moment(pickUpCombinedDateTime, 'MMMM DD, YYYY HH:mm').format('YYYY-MM-DD HH:mm:ss');
-  let collectionCombinedDateTime = `${Collection_Date} ${Collection_Time}`;
-  collectionCombinedDateTime = moment(collectionCombinedDateTime, 'MMMM DD, YYYY HH:mm').format('YYYY-MM-DD HH:mm:ss');
-console.log(pickUpCombinedDateTime, collectionCombinedDateTime)
+    let pickUpCombinedDateTime = `${Pick_Up_Date} ${Pick_Up_Time}`;
+    pickUpCombinedDateTime = moment(pickUpCombinedDateTime, 'MMMM DD, YYYY HH:mm').format('YYYY-MM-DD HH:mm:ss');
+    let collectionCombinedDateTime = `${Collection_Date} ${Collection_Time}`;
+    collectionCombinedDateTime = moment(collectionCombinedDateTime, 'MMMM DD, YYYY HH:mm').format('YYYY-MM-DD HH:mm:ss');
+    console.log(pickUpCombinedDateTime, collectionCombinedDateTime)
 
     const reqBodyData = req.body;
     console.log(reqBodyData)
@@ -158,6 +158,17 @@ console.log(pickUpCombinedDateTime, collectionCombinedDateTime)
     });
 })
 
+router.post("/updateProfile/:id", async (req, res) => {
+    const id = req.params.id;
+    const { username, email_address, user_password, user_password_re_enter } = req.body;
+    if (user_password !== user_password_re_enter) {
+        console.log('Password does not match');
+        return res.redirect('/account-profile.html');
+    }
+    const data = req.body;
+    console.log(data);
 
+    res.redirect('/account-profile.html');
+});
 
 export default router;

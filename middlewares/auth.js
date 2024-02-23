@@ -4,7 +4,7 @@ import { renderHomepage } from "../utlis/render.js";
 
 export const isAuthenticated = async (req, res, next) => {
     try {
-        console.log('isAuthenticated middleware');
+        // console.log('isAuthenticated middleware');
         const { token } = req.cookies;
 
         if (!token) {
@@ -41,7 +41,7 @@ export const isAuthenticated = async (req, res, next) => {
             return renderHomepage(req, res, "Sign In", "/login.html", "Explore the world with a comfortable car");
         }
 
-        console.log("User is authenticated");
+        // console.log("User is authenticated");
         if (!req.user) req.user = results[0];
         next();
     } catch (error) {
@@ -59,11 +59,10 @@ export const checkerLogTwo = (req, res, next) => {
     next();
 }
 
-
 export const isUserAdmin = (req, res, next) => {
     if (req.user.usertype === 'admin') {
         // console.log('User is admin');
-        console.log('this is admin function')
+        // console.log('this is admin function')
         next();
     } else {
         console.log('User is not admin');
@@ -73,7 +72,7 @@ export const isUserAdmin = (req, res, next) => {
 
 export const isUserCustomer = (req, res, next) => {
     if (req.user.usertype === 'user') {
-        console.log('User is customer');
+        // console.log('User is customer');
         next();
     } else {
         console.log('User is not customer');
@@ -83,7 +82,7 @@ export const isUserCustomer = (req, res, next) => {
 
 export const isUserCorporate = (req, res, next) => {
     if (req.user.usertype === 'corporate') {
-        console.log('User is corporate');
+        // console.log('User is corporate');
         next();
     } else {
         console.log('User is not corporate');

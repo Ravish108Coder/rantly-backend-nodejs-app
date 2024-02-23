@@ -1,10 +1,13 @@
 import { Router } from "express";
 const router = Router();
+import bcrypt from "bcryptjs";
 import { connection } from "../server.js";
 import { renderHomepage } from "../utlis/render.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 import { bookingsTableQuery, renderOtherPage } from "../utlis/table.js";
 import moment from "moment";
+import { getAllBookings } from "../utlis/allBookings.js";
+import { render } from "ejs";
 
 
 router.get('/', isAuthenticated, (req, res) => {
@@ -12,8 +15,22 @@ router.get('/', isAuthenticated, (req, res) => {
     renderHomepage(req, res, "Sign Out", "/logout", `Welcome ${req.user.name}!`);
 });
 
+router.get('/login.html', (req, res) => {
+    res.redirect('/login.html');
+});
+
+router.get('/account-profile.html', renderOtherPage('account-profile.html'));
+
 router.get('/booking.html', renderOtherPage('booking.html'));
-router.get('/account-booking.html', renderOtherPage('account-booking.html'));
+router.get('/account-booking.html', async(req, res) => {
+    if(req.user){
+        const allBookings = await getAllBookings(req, res);
+        return res.render('account-booking', {UserName: req.user.name, UserEmail: req.user.email, allBookings: allBookings})
+    }
+    renderOtherPage('account-booking.html');
+});
+
+
 
 router.get('/account-dashboard.html', isAuthenticated, (req, res)=> {
     if(req.user) {
@@ -76,5 +93,27 @@ router.post("/logout", (req, res) => {
     res.redirect('/');
 });
 
+router.post("/updateProfile/:id", async(req, res) => {
+    const id = req.params.id;
+    const { username, email_address, user_password, user_password_re_enter } = req.body;
+    if(user_password !== user_password_re_enter) {
+        console.log('Password does not match');
+        return res.redirect('/account-profile.html');
+    }
+    const data = req.body;
+    console.log(data);
+    const saltRounds = 10;
+    const hashPassword = await bcrypt.hash(user_password, saltRounds);
+    const query = `UPDATE users SET name = '${username}', email = '${email_address}', password = '${hashPassword}'
+     WHERE id = ${id}`;
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error updating document:', err);
+        } else {
+            console.log('Document updated successfully');
+        }
+        res.redirect('/account-profile.html');
+    });
+});
 
 export default router;

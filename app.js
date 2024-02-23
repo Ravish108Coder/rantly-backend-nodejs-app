@@ -9,6 +9,7 @@ import corporateRoutes from "./routes/corporateRoutes.js";
 import commonRouter from "./routes/commonRoutes.js";
 import { checkerLog, isAuthenticated, isUserAdmin, isUserCorporate, isUserCustomer } from "./middlewares/auth.js";
 import { renderHomepage } from "./utlis/render.js";
+import {sendMail} from "./controllers/sendMail.js";
 
 const __dirname = path.resolve(path.dirname(''));
 
@@ -28,8 +29,6 @@ app.use("/corporate", isAuthenticated, isUserCorporate, corporateRoutes);
 
 app.get("/", isAuthenticated, (req, res) => {
   if (req.user) {
-    // return renderHomepage(req, res, "Sign Out", "/logout", `Welcome ${req.user.name}!`);
-    console.log('req.user 1st', req.user)
     const { usertype } = req.user;
     if (usertype === 'admin') return res.redirect('/admin');
     if (usertype === 'user') return res.redirect('/user');
@@ -38,6 +37,8 @@ app.get("/", isAuthenticated, (req, res) => {
     renderHomepage(req, res, "Sign In", "/login.html", "Explore the world with comfortable car");
   }
 });
+
+app.get('/mail', sendMail);
 
 app.get("/login.html", (req, res) => {
   res.render('login')
